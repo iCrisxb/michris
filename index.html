@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071426">
+
+  <!-- Favicon (estrella dorada) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+
+  <meta name="description" content="Un pequeño universo de recuerdos, canciones y palabras para Christopher.">
+  <title>Para Mi Chris, con todo mi amor</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+  <!-- Fondo de estrellas -->
+  <div class="sky" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main>
+    <!-- Pantalla de bienvenida -->
+    <section class="welcome" id="welcome">
+      <div class="welcome-card">
+        <p class="eyebrow">UN PEQUEÑO REGALO HECHO PARA TI</p>
+        
+        <div class="welcome-gif">
+          <img src="IMG/intro-romantico.gif" alt="Una pequeña animación romántica" onerror="this.hidden=true">
+          <div class="gif-fallback" aria-hidden="true">
+            <span>♡</span><i>✦</i><b>✧</b>
+          </div>
+        </div>
+
+        <p class="handwritten">hay algo que quiero enseñarte...</p>
+        <h1>Para Mi Chris,<br><em>con todo mi amor.</em></h1>
+        
+        <p class="welcome-copy">
+          No es una página cualquiera. Guardé aquí algunas cositas que me hacen pensar en ti. 
+          No tienes que descubrirlas todas de golpe; ve despacito.
+        </p>
+
+        <button class="button button-main" id="startButton">
+          Entrar a mi pequeño universo <span>↗</span>
+        </button>
+        
+        <p class="tiny-note">Hecho especialmente para ti · ♡</p>
+      </div>
+    </section>
+
+    <!-- Experiencia principal -->
+    <section class="experience hidden" id="experience" aria-hidden="true">
+      <header class="topbar">
+        <div class="wordmark"><span>✦</span> para mi chris</div>
+        <button class="reset-link" id="resetButton" type="button" title="Volver a empezar">
+          ↺ <span>Reiniciar sorpresa</span>
+        </button>
+      </header>
+
+      <!-- Intro -->
+      <section class="intro">
+        <div class="intro-copy">
+          <p class="eyebrow">FELIZ CUMPLEAÑOS, MI CHRIS</p>
+          <h2>Hay regalos que<br>no vienen en una <em>caja.</em></h2>
+          <p>
+            Espero que te guste mucho, así como tu me gustas a mi.
+            Cada vez que abras un regalito, aparecerá el siguiente.
+          </p>
+          <div class="intro-signature">Con cariño, de mí para ti <span>♡</span></div>
+        </div>
+        
+        <div class="night-art" aria-label="Ilustración de una luna y estrellas">
+          <div class="halo"></div>
+          <div class="moon-shape"></div>
+          <span class="spark s1">✦</span>
+          <span class="spark s2">✧</span>
+          <span class="spark s3">✦</span>
+          <div class="tiny-planet"></div>
+        </div>
+      </section>
+
+      <!-- Progreso -->
+      <section class="journey">
+        <div class="journey-heading">
+          <div>
+            <p class="eyebrow">EL RECORRIDO</p>
+            <h3>Una cosa a la vez.</h3>
+          </div>
+          <div class="progress-copy">
+            <strong id="progressCount">0 / 7</strong>
+            <span>regalos descubiertos</span>
+          </div>
+        </div>
+        
+        <div class="progress-track">
+          <div id="progressBar"></div>
+        </div>
+        
+        <div class="constellation" id="constellation" aria-label="Constelación de siete estrellas">
+          <span class="constellation-star">✦</span>
+          <span class="constellation-star">✧</span>
+          <span class="constellation-star">✦</span>
+        </div>
+        
+        <p class="constellation-note" id="constellationNote">
+          Cada regalo que abras encenderá una estrella.
+        </p>
+      </section>
+
+      <!-- Grid de regalos -->
+      <section class="gift-area">
+        <div class="gift-grid" id="giftGrid"></div>
+      </section>
+
+      <!-- Último secreto -->
+      <section class="last-secret locked" id="lastSecret">
+        <div class="seal" aria-hidden="true">♡</div>
+        <div>
+          <p class="eyebrow">LO ÚLTIMO PERO NO MENOS IMPORTANTE</p>
+          <h3>Guardé algo para el final.</h3>
+          <p id="lastSecretText">No se abrirá hasta que hayas descubierto los siete regalos.</p>
+        </div>
+        <button class="button button-main hidden" id="finalButton">
+          Descubrir lo último ↗
+        </button>
+      </section>
+
+      <footer class="page-footer">
+        Si llegaste hasta aquí, gracias por mirar cada detalle. <span>♡</span>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-backdrop hidden" id="modalBackdrop" aria-hidden="true">
+    <section class="modal-window" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">×</button>
+      <div id="modalContent"></div>
+    </section>
+  </div>
+
+  <!-- Estrella secreta -->
+  <div class="star-secret" id="starSecret" title="Toca la estrella escondida" 
+       role="button" tabindex="0" aria-label="Estrella escondida">✦</div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="JS/script.js"></script>
+</body>
+</html>

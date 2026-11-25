@@ -1,0 +1,1720 @@
+/* =====================================================
+   1. VARIABLES Y RESET
+   ===================================================== */
+:root {
+  /* Colores principales */
+  --night:        #071426;
+  --night-2:      #0c1d35;
+  --panel:        #10243e;
+  --panel-soft:   #142b48;
+
+  /* Acentos */
+  --blue:         #8eb9ec;
+  --blue-light:   #c9def8;
+  --lavender:     #b7a9d9;
+  --cream:        #f2eee8;
+  --gold:         #d7c69a;
+
+  /* Neutros */
+  --muted:        #aab8ca;
+  --line:         rgba(190, 211, 238, 0.16);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--cream);
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    #152b49 0%,
+    var(--night) 55%,
+    #050d19 100%
+  );
+  font-family: "DM Sans", sans-serif;
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =====================================================
+   2. FONDO DE ESTRELLAS
+   ===================================================== */
+.sky {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sky span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #e5efff;
+  opacity: 0.55;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+.sky span:nth-child(1) { top: 12%; left: 8%; }
+.sky span:nth-child(2) { top: 23%; left: 87%; animation-delay: 1s; }
+.sky span:nth-child(3) { top: 61%; left: 12%; animation-delay: 2s; }
+.sky span:nth-child(4) { top: 78%; left: 78%; animation-delay: 0.5s; }
+.sky span:nth-child(5) { top: 42%; left: 94%; animation-delay: 1.5s; }
+.sky span:nth-child(6) { top: 88%; left: 34%; animation-delay: 2.4s; }
+.sky span:nth-child(7) { top: 8%;  left: 66%; animation-delay: 1.8s; }
+.sky span:nth-child(8) { top: 52%; left: 49%; animation-delay: 0.8s; }
+.sky span:nth-child(9) { top: 31%; left: 29%; animation-delay: 2.8s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.18; transform: scale(0.8); }
+  50%      { opacity: 0.9;  transform: scale(1.8); }
+}
+
+
+/* =====================================================
+   3. LAYOUT GENERAL
+   ===================================================== */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =====================================================
+   4. PANTALLA DE BIENVENIDA
+   ===================================================== */
+.welcome {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 30px 18px;
+}
+
+.welcome-card {
+  width: min(680px, 100%);
+  text-align: center;
+  padding: clamp(28px, 6vw, 62px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(
+    145deg,
+    rgba(19, 42, 69, 0.88),
+    rgba(7, 20, 38, 0.88)
+  );
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.32);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-card::before {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(121, 162, 213, 0.08);
+  filter: blur(8px);
+  top: -150px;
+  right: -90px;
+}
+
+.eyebrow {
+  color: var(--blue);
+  letter-spacing: 0.2em;
+  font-size: 0.67rem;
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+/* GIF de bienvenida */
+.welcome-gif {
+  width: 132px;
+  height: 132px;
+  margin: 0 auto 22px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.welcome-gif img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  border-radius: 50%;
+}
+
+.gif-fallback {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(191, 216, 247, 0.3);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, #243e60, #0b1b30 70%);
+  box-shadow: 0 0 42px rgba(129, 171, 222, 0.16);
+}
+
+.gif-fallback span {
+  font-size: 4rem;
+  color: #d9c4e9;
+  animation: heartbeat 1.8s ease-in-out infinite;
+}
+
+.gif-fallback i,
+.gif-fallback b {
+  position: absolute;
+  color: var(--gold);
+  font-style: normal;
+}
+
+.gif-fallback i { top: 18px; right: 25px; }
+.gif-fallback b { bottom: 18px; left: 23px; }
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  12%      { transform: scale(1.12); }
+  25%      { transform: scale(1); }
+  38%      { transform: scale(1.08); }
+}
+
+.handwritten {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  color: #c8b8de;
+  font-size: 1.12rem;
+  margin: 0 0 12px;
+}
+
+h1, h2, h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 500;
+}
+
+.welcome h1 {
+  font-size: clamp(2.4rem, 7vw, 4.4rem);
+  line-height: 1.08;
+  margin: 0 0 20px;
+}
+
+h1 em,
+h2 em {
+  color: var(--blue-light);
+  font-weight: 500;
+}
+
+.welcome-copy {
+  color: #c0cad8;
+  line-height: 1.8;
+  max-width: 480px;
+  margin: 0 auto 28px;
+  font-size: 0.98rem;
+}
+
+.tiny-note {
+  color: #8294aa;
+  font-size: 0.72rem;
+  margin: 20px 0 0;
+  letter-spacing: 0.06em;
+}
+
+
+/* =====================================================
+   5. BOTONES
+   ===================================================== */
+.button {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 21px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 28px rgba(95, 143, 202, 0.2);
+}
+
+.button:focus-visible,
+.gift-card:focus-visible,
+.reset-link:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 4px;
+}
+
+.button-main {
+  color: #08182b;
+  background: linear-gradient(110deg, #c9def8, #aebddd);
+  font-weight: 700;
+}
+
+.button-main span {
+  margin-left: 10px;
+}
+
+.secondary-button {
+  border: 1px solid rgba(185, 207, 235, 0.35);
+  background: transparent;
+  color: #d8e5f4;
+  border-radius: 30px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   6. EXPERIENCIA PRINCIPAL
+   ===================================================== */
+.experience {
+  max-width: 1040px;
+  margin: auto;
+  padding: 0 28px 30px;
+}
+
+/* Barra superior */
+.topbar {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark {
+  font-family: "Playfair Display", serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+.wordmark span {
+  color: var(--blue);
+  margin-right: 7px;
+}
+
+.reset-link {
+  background: transparent;
+  color: #9cacc0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 13px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.reset-link:hover {
+  color: var(--cream);
+  border-color: rgba(190, 211, 238, 0.45);
+}
+
+
+/* =====================================================
+   7. INTRO + ILUSTRACIÓN NOCTURNA
+   ===================================================== */
+.intro {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 35px;
+  align-items: center;
+  padding: 70px 4px 50px;
+}
+
+.intro h2 {
+  font-size: clamp(2.35rem, 5.5vw, 4.1rem);
+  line-height: 1.1;
+  margin: 0 0 18px;
+}
+
+.intro-copy > p:not(.eyebrow) {
+  max-width: 550px;
+  color: #b9c5d5;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.intro-signature {
+  margin-top: 22px;
+  color: #c6b8da;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+}
+
+.intro-signature span {
+  color: #d6aeca;
+  margin-left: 6px;
+}
+
+/* Ilustración luna */
+.night-art {
+  height: 260px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.halo {
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  border: 1px solid rgba(170, 201, 238, 0.2);
+  border-radius: 50%;
+  box-shadow:
+    0 0 65px rgba(111, 157, 211, 0.08),
+    inset 0 0 50px rgba(111, 157, 211, 0.05);
+}
+
+.moon-shape {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d9e6f5, #879fbd);
+  box-shadow: 0 0 65px rgba(157, 190, 228, 0.25);
+  position: relative;
+}
+
+.moon-shape::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #112641;
+  top: -12px;
+  left: 35px;
+}
+
+.spark {
+  position: absolute;
+  color: #d8c8a2;
+}
+
+.s1 { top: 30px; left: 26%; }
+.s2 { right: 20%; top: 65px; font-size: 1.4rem; }
+.s3 { bottom: 30px; right: 28%; }
+
+.tiny-planet {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #b8a9d9;
+  right: 22%;
+  bottom: 58px;
+  box-shadow: 0 0 20px #b8a9d9;
+}
+
+
+/* =====================================================
+   8. PROGRESO Y CONSTELACIÓN
+   ===================================================== */
+.journey {
+  padding: 22px 0 18px;
+  border-top: 1px solid var(--line);
+}
+
+.journey-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.journey-heading h3 {
+  font-size: 1.7rem;
+  margin: 0;
+}
+
+.progress-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: #8fa1b7;
+  font-size: 0.73rem;
+  gap: 3px;
+}
+
+.progress-copy strong {
+  font-size: 1rem;
+  color: var(--blue-light);
+}
+
+.progress-track {
+  height: 4px;
+  background: #20344c;
+  border-radius: 9px;
+  margin: 20px 0 17px;
+  overflow: hidden;
+}
+
+.progress-track div {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #8fb7e5, #c6b8da);
+  border-radius: 9px;
+  transition: width 0.5s ease;
+}
+
+.constellation {
+  display: flex;
+  justify-content: space-between;
+  max-width: 470px;
+  margin: 0 auto;
+  color: #50647f;
+  font-size: 1.3rem;
+  position: relative;
+}
+
+.constellation::before {
+  content: "";
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #425a78, transparent);
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 50%;
+  z-index: -1;
+}
+
+.constellation-star {
+  transition: color 0.35s, text-shadow 0.35s, transform 0.35s;
+}
+
+.constellation-star.lit {
+  color: #e5d8ae;
+  text-shadow: 0 0 15px rgba(225, 208, 157, 0.8);
+  transform: scale(1.25);
+}
+
+.constellation-note {
+  text-align: center;
+  color: #8294aa;
+  font-size: 0.72rem;
+  margin: 10px 0 0;
+}
+
+
+/* =====================================================
+   9. GRID DE REGALOS
+   ===================================================== */
+.gift-area {
+  padding: 30px 0 45px;
+}
+
+.gift-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.gift-card,
+.gift-placeholder {
+  min-height: 205px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  text-align: left;
+  background: linear-gradient(
+    145deg,
+    rgba(20, 43, 71, 0.9),
+    rgba(12, 29, 50, 0.9)
+  );
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.gift-card {
+  cursor: pointer;
+  color: var(--cream);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.gift-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(169, 202, 239, 0.55);
+  box-shadow: 0 15px 32px rgba(0, 0, 0, 0.2);
+}
+
+.gift-number,
+.gift-placeholder > span {
+  font-size: 0.68rem;
+  color: #8299b7;
+  letter-spacing: 0.13em;
+}
+
+.gift-symbol {
+  font-size: 1.8rem;
+  color: var(--blue-light);
+  margin: 14px 0 8px;
+}
+
+.gift-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+}
+
+.gift-hint {
+  color: #9eafc3;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  margin-top: 7px;
+}
+
+.gift-action {
+  color: var(--blue-light);
+  font-size: 0.76rem;
+  margin-top: auto;
+  padding-top: 17px;
+}
+
+.gift-action b {
+  margin-left: 7px;
+}
+
+.gift-card.completed {
+  border-color: rgba(215, 198, 154, 0.4);
+  background: linear-gradient(
+    145deg,
+    rgba(34, 51, 70, 0.95),
+    rgba(13, 31, 50, 0.95)
+  );
+}
+
+.gift-card.completed::after {
+  content: "✓";
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  color: var(--gold);
+  font-size: 0.85rem;
+}
+
+/* Placeholders */
+.gift-placeholder {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-style: dashed;
+  background: rgba(12, 29, 50, 0.42);
+  color: #71839a;
+}
+
+.gift-placeholder i {
+  font-style: normal;
+  font-size: 1.5rem;
+  color: #8399b6;
+  margin: 8px 0;
+}
+
+.gift-placeholder p {
+  font-family: "Playfair Display", serif;
+  font-size: 1.08rem;
+  line-height: 1.3;
+  margin: 0 0 8px;
+  color: #a6b4c6;
+}
+
+.gift-placeholder small {
+  font-size: 0.66rem;
+  color: #73859d;
+}
+
+
+/* =====================================================
+   10. ÚLTIMO SECRETO
+   ===================================================== */
+.last-secret {
+  border: 1px solid rgba(215, 198, 154, 0.22);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(
+    110deg,
+    rgba(42, 48, 66, 0.55),
+    rgba(17, 33, 53, 0.8)
+  );
+  margin-bottom: 30px;
+}
+
+.last-secret h3 {
+  margin: 0 0 6px;
+  font-size: 1.45rem;
+}
+
+.last-secret p:not(.eyebrow) {
+  margin: 0;
+  color: #aebacc;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.seal {
+  flex: 0 0 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(140deg, #c6b8da, #8e9fbc);
+  color: #15243a;
+  font-size: 1.35rem;
+}
+
+.last-secret .eyebrow {
+  margin-bottom: 6px;
+  color: var(--gold);
+}
+
+.last-secret .button {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+
+.last-secret.unlocked {
+  border-color: rgba(215, 198, 154, 0.55);
+  box-shadow: 0 0 30px rgba(215, 198, 154, 0.08);
+}
+
+
+/* =====================================================
+   11. FOOTER
+   ===================================================== */
+.page-footer {
+  text-align: center;
+  color: #71839a;
+  font-size: 0.72rem;
+  padding: 0 0 26px;
+}
+
+.page-footer span {
+  color: #c6a8c8;
+}
+
+
+/* =====================================================
+   12. MODAL
+   ===================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(2, 8, 16, 0.78);
+  backdrop-filter: blur(9px);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.modal-window {
+  width: min(720px, 100%);
+  max-height: min(88svh, 850px);
+  overflow: auto;
+  background: linear-gradient(145deg, #142b47, #0a192c);
+  border: 1px solid rgba(190, 211, 238, 0.2);
+  border-radius: 22px;
+  padding: clamp(22px, 5vw, 42px);
+  position: relative;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: #d9e4f2;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-kicker {
+  color: var(--blue);
+  letter-spacing: 0.18em;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.modal-title {
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  margin: 9px 40px 8px 0;
+  line-height: 1.15;
+}
+
+.modal-lead {
+  color: #adbacb;
+  line-height: 1.7;
+  font-size: 0.9rem;
+  margin: 0 0 23px;
+}
+
+
+/* =====================================================
+   13. CONTENIDO DE LOS REGALOS (dentro del modal)
+   ===================================================== */
+
+/* --- Carta Spiderman (Regalo 01) --- */
+.letter-spiderman {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 8px 0 18px;
+  /* Fondo Spiderman */
+  background-image: url("../IMG/fondospiderman.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Capa oscura encima de la imagen */
+.letter-spiderman::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(4, 12, 28, 0.88) 0%,
+    rgba(8, 20, 45, 0.92) 50%,
+    rgba(5, 15, 35, 0.9) 100%
+  );
+  z-index: 0;
+}
+
+/* Brillo azul alrededor */
+.letter-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 90, 200, 0.45),
+    rgba(80, 140, 255, 0.25),
+    rgba(20, 60, 160, 0.4)
+  );
+  filter: blur(12px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Papel de la carta — tonos oscuros */
+.letter-paper.spider-theme {
+  position: relative;
+  z-index: 1;
+  background: rgba(8, 18, 40, 0.75);
+  color: #e8f0ff;
+  border: 1px solid rgba(100, 160, 255, 0.25);
+  border-radius: 14px;
+  padding: clamp(22px, 4.5vw, 36px);
+  box-shadow:
+    0 0 0 1px rgba(60, 120, 220, 0.15),
+    0 0 40px rgba(40, 100, 220, 0.2),
+    inset 0 0 60px rgba(20, 50, 120, 0.15);
+  backdrop-filter: blur(2px);
+}
+
+.letter-paper.spider-theme .letter-body {
+  white-space: pre-line;
+  font-family: "Playfair Display", serif;
+  font-size: 0.98rem;
+  line-height: 1.85;
+  color: #e2ebf8;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Tabs de página */
+.page-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.page-tab {
+  border: 1px solid rgba(100, 150, 220, 0.3);
+  background: transparent;
+  color: #9bb8d9;
+  border-radius: 30px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.76rem;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.page-tab:hover {
+  border-color: rgba(130, 180, 255, 0.5);
+  color: #c5d8f0;
+}
+
+.page-tab.active {
+  color: #08182b;
+  background: linear-gradient(110deg, #7eb0f0, #a0c4f0);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* Navegación de páginas */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.chapter-nav button {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: #d7e4f3;
+  border-radius: 30px;
+  padding: 9px 13px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.chapter-nav button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.chapter-nav small {
+  color: #8799af;
+}
+
+/* Carta final (último regalo) */
+.final-paper {
+  background: #f0ece5;
+  color: #273548;
+  border-radius: 12px;
+  padding: clamp(22px, 5vw, 40px);
+  box-shadow: inset 0 0 0 1px rgba(55, 68, 85, 0.08);
+}
+
+.final-paper .final-heading {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  color: #233e60;
+  margin: 0 0 18px;
+}
+
+.final-paper p {
+  white-space: pre-line;
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  line-height: 1.9;
+  margin: 0;
+}
+
+/* --- Galería de fotos --- */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.photo-card {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0b1a2d;
+}
+
+.photo-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: #172c46;
+}
+
+.photo-caption {
+  padding: 12px;
+}
+
+.photo-caption strong {
+  font-family: "Playfair Display", serif;
+  font-weight: 500;
+}
+
+.photo-caption p {
+  font-size: 0.78rem;
+  color: #9eafc3;
+  line-height: 1.5;
+  margin: 5px 0 0;
+}
+
+/* --- Notas --- */
+.soft-note,
+.note-box {
+  color: #94a6bc;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  margin-top: 16px;
+}
+
+.note-box {
+  padding: 14px 16px;
+  border-left: 2px solid #a9b9d5;
+  background: rgba(153, 184, 221, 0.07);
+  border-radius: 0 10px 10px 0;
+}
+
+/* --- Canciones --- */
+.song-list {
+  display: grid;
+  gap: 10px;
+}
+
+.song {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 13px;
+}
+
+.song-disc {
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #2d4869, #172b45);
+  color: #d8c9e5;
+  font-size: 1.2rem;
+  flex: 0 0 auto;
+}
+
+.song-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.song-info strong {
+  font-family: "Playfair Display", serif;
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+
+.song-info p {
+  font-size: 0.75rem;
+  color: #a3b1c3;
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
+
+.song a {
+  color: var(--blue-light);
+  font-size: 0.75rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.song a:hover {
+  text-decoration: underline;
+}
+
+/* --- Audio --- */
+.audio-panel {
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  background: rgba(5, 17, 31, 0.35);
+}
+
+.audio-heart {
+  font-size: 2.5rem;
+  color: #d2b8d8;
+  animation: heartbeat 1.8s infinite;
+}
+
+.audio-panel p {
+  color: #aab9ca;
+  line-height: 1.7;
+  font-size: 0.87rem;
+}
+
+.audio-panel audio {
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* --- Warriors --- */
+.basketball-panel {
+  border-radius: 16px;
+  padding: 26px;
+  background:
+    radial-gradient(circle at 85% 10%, rgba(212, 190, 132, 0.2), transparent 34%),
+    linear-gradient(135deg, #102c4a, #08172a);
+  border: 1px solid rgba(200, 218, 242, 0.16);
+  text-align: center;
+}
+
+.basketball-ball {
+  font-size: 3.2rem;
+}
+
+.basketball-panel .team-label {
+  color: #e0c985;
+  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+}
+
+.basketball-panel h3 {
+  font-size: 2.5rem;
+  margin: 8px;
+}
+
+.basketball-panel p {
+  color: #b8c7d8;
+  line-height: 1.7;
+  max-width: 470px;
+  margin: 0 auto;
+}
+
+/* --- Mensajes / Gatito --- */
+.kitten-panel {
+  text-align: center;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(5, 17, 31, 0.35);
+}
+
+.kitten {
+  font-size: 3.5rem;
+}
+
+.motivation {
+  font-family: "Playfair Display", serif;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: #e1e8f1;
+  max-width: 490px;
+  margin: 14px auto 20px;
+}
+
+/* --- Aventuras --- */
+.adventure-list {
+  display: grid;
+  gap: 9px;
+}
+
+.adventure {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: #d0dae7;
+  line-height: 1.5;
+  font-size: 0.86rem;
+}
+
+.adventure input {
+  accent-color: #a9c4e5;
+  margin-top: 4px;
+}
+
+.adventure.checked span {
+  text-decoration: line-through;
+  color: #8091a6;
+}
+
+
+/* =====================================================
+   14. ESTRELLA SECRETA + TOAST
+   ===================================================== */
+.star-secret {
+  position: fixed;
+  right: 19px;
+  bottom: 17px;
+  z-index: 5;
+  color: #d6c89e;
+  opacity: 0.55;
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-shadow: 0 0 12px rgba(221, 205, 153, 0.5);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.star-secret:hover,
+.star-secret:focus {
+  opacity: 1;
+  transform: scale(1.35);
+  outline: none;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 25px;
+  transform: translate(-50%, 15px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: #d7e4f3;
+  color: #10243b;
+  border-radius: 30px;
+  padding: 11px 17px;
+  font-size: 0.78rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  transition: 0.25s;
+  max-width: calc(100% - 30px);
+  text-align: center;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+
+/* =====================================================
+   15. CONFETI
+   ===================================================== */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  top: -20px;
+  border-radius: 2px;
+  opacity: 0.9;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+
+/* =====================================================
+   16. RESPONSIVE
+   ===================================================== */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 760px) {
+  .experience {
+    padding: 0 18px 25px;
+  }
+
+  .topbar {
+    height: 66px;
+  }
+
+  .reset-link {
+    padding: 8px 10px;
+  }
+
+  .reset-link span {
+    font-size: 0.7rem;
+  }
+
+  .intro {
+    grid-template-columns: 1fr;
+    padding: 48px 2px 28px;
+    gap: 5px;
+  }
+
+  .intro-copy {
+    text-align: center;
+  }
+
+  .intro-copy > p:not(.eyebrow) {
+    margin: auto;
+  }
+
+  .intro-signature {
+    margin-top: 16px;
+  }
+
+  .night-art {
+    height: 175px;
+  }
+
+  .halo {
+    width: 155px;
+    height: 155px;
+  }
+
+  .moon-shape {
+    width: 92px;
+    height: 92px;
+  }
+
+  .moon-shape::after {
+    width: 86px;
+    height: 86px;
+    left: 25px;
+    top: -9px;
+  }
+
+  .journey-heading h3 {
+    font-size: 1.45rem;
+  }
+
+  .gift-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .gift-card,
+  .gift-placeholder {
+    min-height: 184px;
+    padding: 15px;
+  }
+
+  .gift-title {
+    font-size: 1.08rem;
+  }
+
+  .gift-hint {
+    font-size: 0.73rem;
+  }
+
+  .last-secret {
+    flex-wrap: wrap;
+    padding: 18px;
+    gap: 13px;
+  }
+
+  .last-secret > div:nth-child(2) {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .last-secret .button {
+    margin: 5px 0 0;
+    width: 100%;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 420px) {
+  .welcome-card {
+    padding: 30px 21px;
+    border-radius: 22px;
+  }
+
+  .welcome h1 {
+    font-size: 2.45rem;
+  }
+
+  .welcome-copy {
+    font-size: 0.88rem;
+  }
+
+  .wordmark {
+    font-size: 1rem;
+  }
+
+  .reset-link span {
+    display: none;
+  }
+
+  .reset-link {
+    font-size: 1rem;
+  }
+
+  .gift-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gift-card,
+  .gift-placeholder {
+    min-height: 160px;
+  }
+
+  .gift-placeholder {
+    display: none;
+  }
+
+  .progress-copy span {
+    font-size: 0.65rem;
+  }
+
+  .journey-heading {
+    align-items: center;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-backdrop {
+    padding: 9px;
+  }
+
+  .modal-window {
+    padding: 23px 17px;
+    border-radius: 17px;
+    max-height: 92svh;
+  }
+
+  .modal-close {
+    right: 9px;
+    top: 8px;
+  }
+
+  .chapter-nav {
+    gap: 6px;
+  }
+
+  .chapter-nav button {
+    padding: 8px 10px;
+    font-size: 0.7rem;
+  }
+
+  .letter-paper.spider-theme {
+    padding: 18px 16px;
+  }
+
+  .letter-paper.spider-theme .letter-body {
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+}
+
+
+/* =====================================================
+   17. ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+   ===================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =====================================================
+   GALERÍA DE RECUERDOS + LIGHTBOX
+   ===================================================== */
+
+/* Grid ordenado y responsive */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+@media (min-width: 560px) {
+  .photo-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+/* Tarjeta de foto */
+.photo-card {
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0b1a2d;
+  border: none;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.photo-card:hover,
+.photo-card:focus-visible {
+  transform: translateY(-4px);
+  outline: none;
+}
+
+.photo-card:focus-visible .photo-frame {
+  box-shadow:
+    0 0 0 2px rgba(120, 180, 255, 0.9),
+    0 0 22px rgba(80, 150, 255, 0.55);
+}
+
+/* Marco con brillo azul */
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+  box-shadow:
+    0 0 0 1px rgba(90, 150, 255, 0.35),
+    0 0 16px rgba(60, 120, 255, 0.25);
+  transition: box-shadow 0.3s ease;
+}
+
+.photo-card:hover .photo-frame {
+  box-shadow:
+    0 0 0 2px rgba(120, 180, 255, 0.7),
+    0 0 24px rgba(80, 150, 255, 0.5);
+}
+
+.photo-frame img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  background: #172c46;
+  transition: transform 0.35s ease;
+}
+
+.photo-card:hover .photo-frame img {
+  transform: scale(1.04);
+}
+
+/* Caption */
+.photo-caption {
+  padding: 10px 12px 12px;
+  background: linear-gradient(180deg, #0e1f35, #0a182c);
+  border: 1px solid rgba(90, 150, 255, 0.15);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+}
+
+.photo-date {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: #7eb0f0;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+}
+
+.photo-caption strong {
+  font-family: "Playfair Display", serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #e2ebf8;
+  display: block;
+  line-height: 1.3;
+}
+
+.photo-caption p {
+  font-size: 0.72rem;
+  color: #9eafc3;
+  line-height: 1.45;
+  margin: 4px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- LIGHTBOX ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(2, 8, 18, 0.92);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.lightbox.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  max-width: min(920px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: min(72vh, 640px);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 2px rgba(100, 160, 255, 0.4),
+    0 0 40px rgba(50, 120, 255, 0.35);
+  background: #0a1528;
+}
+
+.lightbox-info {
+  text-align: center;
+  max-width: 520px;
+  color: #e2ebf8;
+}
+
+.lightbox-date {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: #7eb0f0;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.lightbox-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.lightbox-note {
+  font-size: 0.88rem;
+  color: #b0c0d4;
+  line-height: 1.55;
+  margin: 0 0 8px;
+}
+
+.lightbox-counter {
+  font-size: 0.72rem;
+  color: #7a8fa8;
+}
+
+/* Botones lightbox */
+.lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(150, 190, 255, 0.3);
+  background: rgba(10, 25, 50, 0.8);
+  color: #e0eaff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.lightbox-close:hover {
+  background: rgba(30, 70, 140, 0.9);
+  border-color: rgba(150, 190, 255, 0.6);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(150, 190, 255, 0.3);
+  background: rgba(10, 25, 50, 0.75);
+  color: #e0eaff;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s, border-color 0.2s;
+  display: grid;
+  place-items: center;
+}
+
+.lightbox-nav:hover {
+  background: rgba(30, 70, 140, 0.9);
+  border-color: rgba(150, 190, 255, 0.6);
+}
+
+.lightbox-prev { left: 12px; }
+.lightbox-next { right: 12px; }
+
+/* Móvil */
+@media (max-width: 520px) {
+  .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .photo-caption {
+    padding: 8px 9px 10px;
+  }
+
+  .photo-caption strong {
+    font-size: 0.85rem;
+  }
+
+  .photo-caption p {
+    font-size: 0.68rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .lightbox {
+    padding: 10px;
+  }
+
+  .lightbox-img {
+    max-height: 58vh;
+  }
+
+  .lightbox-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .lightbox-prev { left: 6px; }
+  .lightbox-next { right: 6px; }
+
+  .lightbox-close {
+    top: 8px;
+    right: 8px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .lightbox-title {
+    font-size: 1.1rem;
+  }
+
+  .lightbox-note {
+    font-size: 0.82rem;
+  }
+}
